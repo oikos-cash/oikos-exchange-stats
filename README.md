@@ -1,6 +1,4 @@
-[![CircleCI](https://circleci.com/gh/Synthetixio/synthetix-exchange-stats.svg?style=svg)](https://circleci.com/gh/Synthetixio/synthetix-exchange-stats)
-
-# synthetix-exchange-stats
+# oikos-exchange-stats
 
 API endpoints for CMC and Coingecko
 
