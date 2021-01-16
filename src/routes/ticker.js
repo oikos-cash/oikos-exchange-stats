@@ -1,4 +1,4 @@
-const snxData = require('synthetix-data');
+const snxData = require('@oikos/oikos-data');
 const cache = require('memory-cache');
 const synthetixJs = require('../utils/snxJS-connector');
 const { getCurrenciesFromPair } = require('../utils/currency');

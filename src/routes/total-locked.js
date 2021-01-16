@@ -1,4 +1,4 @@
-const snxData = require('synthetix-data');
+const snxData = require('@oikos/oikos-data');
 const cache = require('memory-cache');
 
 const synthetixJs = require('../utils/snxJS-connector');
@@ -11,9 +11,11 @@ const getTotalLocked = async (req, res) => {
 		snxJS: { ExchangeRates, SynthetixState, Synthetix },
 		ethersUtils: { formatBytes32String },
 	} = synthetixJs;
+
 	if (cache.get(CACHE_KEY)) {
 		return res.send({ totalLocked: cache.get(CACHE_KEY) });
 	}
+	console.log({o:synthetixJs.snxJS})
 
 	try {
 		let snxLocked = 0;
@@ -27,9 +29,9 @@ const getTotalLocked = async (req, res) => {
 			unformattedTotalSupply,
 		] = await Promise.all([
 			SynthetixState.lastDebtLedgerEntry(),
-			Synthetix.totalIssuedSynthsExcludeEtherCollateral(formatBytes32String('sUSD')),
+			Synthetix.totalIssuedSynths(formatBytes32String('sUSD')),
 			SynthetixState.issuanceRatio(),
-			ExchangeRates.rateForCurrency(formatBytes32String('SNX')),
+			ExchangeRates.rateForCurrency(formatBytes32String('OKS')),
 			Synthetix.totalSupply(),
 		]);
 

@@ -14,7 +14,9 @@ const getPairs = async (req, res) => {
 	if (category !== 'forex') {
 		synthsList.push('sUSD');
 	}
-
+	if (category === 'crypto') {
+		synthsList.push('OKS');
+	}
 	let pairs = [];
 	for (let i = 0; i < synthsList.length; i++) {
 		for (let j = i + 1; j < synthsList.length; j++) {
@@ -23,7 +25,7 @@ const getPairs = async (req, res) => {
 	}
 
 	pairs = pairs.map(pair => {
-		['sETH', 'sBTC', 'sUSD'].forEach(s => {
+		['sETH', 'sBTC', 'sUSD', 'OKS'].forEach(s => {
 			if (pair.startsWith(s)) {
 				pair = pair.split('-').reverse().join('-');
 			}

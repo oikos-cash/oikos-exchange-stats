@@ -1,4 +1,4 @@
-const snxData = require('synthetix-data');
+const snxData = require('@oikos/oikos-data');
 const { getCurrenciesFromPair } = require('../utils/currency');
 
 const SELL_TRANSACTION = 'sell';
