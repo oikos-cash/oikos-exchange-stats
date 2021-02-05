@@ -35,6 +35,7 @@ const getTotalLocked = async (req, res) => {
 			Synthetix.totalSupply(),
 		]);
 
+		
 		const lastDebtLedgerEntry = unformattedLastDebtLedgerEntry / 1e27;
 
 		const [totalIssuedSynths, issuanceRatio, usdToSnxPrice, totalSupply] = [
