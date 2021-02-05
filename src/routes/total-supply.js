@@ -10,11 +10,11 @@ const getTotalSupply = async (req, res) => {
 	} = synthetixJs;
 
 	if (cache.get(CACHE_KEY)) {
-		return res.send({ totalSupply: cache.get(CACHE_KEY) });
+		return res.send( cache.get(CACHE_KEY) );
 	}
 	try {
 		const totalSupply = await Synthetix.totalSupply();
-		return res.send({ totalSupply: cache.put(CACHE_KEY, totalSupply / 1e18, CACHE_LIMIT) });
+		return res.send(  cache.put(CACHE_KEY, totalSupply / 1e18, CACHE_LIMIT) );
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json(err);
