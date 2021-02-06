@@ -6,16 +6,21 @@ const synthetixJs = require('../utils/snxJS-connector');
 const CACHE_LIMIT = 60 * 1000 * 60; // 60 minutes
 const CACHE_KEY = 'totalLocked';
 
-const getTotalLocked = async (req, res) => {
+const getTotalLocked = async (req=null, res=null) => {
 	const {
 		snxJS: { ExchangeRates, SynthetixState, Synthetix },
 		ethersUtils: { formatBytes32String },
 	} = synthetixJs;
 
 	if (cache.get(CACHE_KEY)) {
-		return res.send({ totalLocked: cache.get(CACHE_KEY) });
+		if (req != null && res != null) {
+			return res.send({ totalLocked: cache.get(CACHE_KEY) });
+
+		} else {
+			return cache.get(CACHE_KEY);
+		}
 	}
-	console.log({o:synthetixJs.snxJS})
+	 
 
 	try {
 		let snxLocked = 0;
@@ -59,7 +64,13 @@ const getTotalLocked = async (req, res) => {
 		const marketCap = usdToSnxPrice * totalSupply;
 		const totalLockedValue = (marketCap * snxLocked) / snxTotal;
 		cache.put(CACHE_KEY, totalLockedValue, CACHE_LIMIT);
-		return res.send({ totalLockedValue });
+				
+		if (req != null && res != null) {
+			return res.send({ totalLockedValue });
+		} else {
+			return snxLocked;
+		}
+
 	} catch (e) {
 		console.log(e);
 		return res.status(500).json('Could not get total locked value');

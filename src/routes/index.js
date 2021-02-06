@@ -5,6 +5,7 @@ const getTotalSupply = require('./total-supply');
 const getPairs = require('./pairs');
 const getTicker = require('./ticker');
 const getTotalLocked = require('./total-locked');
+const getCirculatingSupply = require('./circulating-supply');
 
 const router = express.Router();
 
@@ -18,6 +19,7 @@ router.get('/alive', (req, res) => {
 
 router.get('/api/total-locked',  getTotalLocked);
 router.get('/api/total-supply', cors(corsOptions), getTotalSupply);
+router.get('/api/circulating-supply', cors(corsOptions), getCirculatingSupply);
 router.get('/api/pairs/:category', getPairs);
 router.get('/api/ticker/:pair', getTicker);
 
