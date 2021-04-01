@@ -8,7 +8,7 @@ const CACHE_KEY = 'totalLocked';
 
 const getTotalLocked = async (req=null, res=null) => {
 	const {
-		oksJS: { ExchangeRates, SynthetixState, Synthetix },
+		oksJS: { ExchangeRates, OikosState, Oikos },
 		ethersUtils: { formatBytes32String },
 	} = synthetixJs;
 
@@ -33,11 +33,11 @@ const getTotalLocked = async (req=null, res=null) => {
 			unformattedUsdToSnxPrice,
 			unformattedTotalSupply,
 		] = await Promise.all([
-			SynthetixState.lastDebtLedgerEntry(),
-			Synthetix.totalIssuedSynths(formatBytes32String('sUSD')),
-			SynthetixState.issuanceRatio(),
+			OikosState.lastDebtLedgerEntry(),
+			Oikos.totalIssuedSynths(formatBytes32String('oUSD')),
+			OikosState.issuanceRatio(),
 			ExchangeRates.rateForCurrency(formatBytes32String('OKS')),
-			Synthetix.totalSupply(),
+			Oikos.totalSupply(),
 		]);
 
 		
@@ -62,6 +62,9 @@ const getTotalLocked = async (req=null, res=null) => {
 		});
 
 		const marketCap = usdToSnxPrice * totalSupply;
+
+		console.log(marketCap, snxLocked, snxTotal);
+
 		const totalLockedValue = (marketCap * snxLocked) / snxTotal;
 		cache.put(CACHE_KEY, totalLockedValue, CACHE_LIMIT);
 				
