@@ -8,7 +8,7 @@ const CACHE_KEY = 'totalLocked';
 
 const getTotalLocked = async (req=null, res=null) => {
 	const {
-		snxJS: { ExchangeRates, SynthetixState, Synthetix },
+		oksJS: { ExchangeRates, SynthetixState, Synthetix },
 		ethersUtils: { formatBytes32String },
 	} = synthetixJs;
 

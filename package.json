@@ -13,11 +13,11 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@oikos/oikos-data": "^0.1.7",
-		"@oikos/oikos-js": "0.6.8",
+		"@oikos/oikos-data-bsc": "^0.1.2",
+		"@oikos/oikos-js-bsc": "0.2.17",
 		"cors": "^2.8.5",
 		"dotenv": "^8.2.0",
-		"ethers": "^4.0.47",
+		"ethers": "^5.0.31",
 		"express": "^4.17.1",
 		"memory-cache": "^0.2.0"
 	},

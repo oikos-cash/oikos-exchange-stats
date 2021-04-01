@@ -1,8 +1,8 @@
 const express = require('express');
 require('dotenv').config();
-const snxJSConnector = require('./utils/snxJS-connector');
+const oksJSConnector = require('./utils/snxJS-connector');
 
-snxJSConnector.init();
+oksJSConnector.init();
 
 const router = require('./routes');
 

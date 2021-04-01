@@ -18,7 +18,7 @@ const ticker = async (req, res) => {
 	}
 
 	const {
-		snxJS: { ExchangeRates },
+		oksJS: { ExchangeRates },
 		ethersUtils: { formatBytes32String },
 	} = synthetixJs;
 

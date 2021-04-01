@@ -1,17 +1,19 @@
 const cache = require('memory-cache');
-const synthetixJs = require('../utils/snxJS-connector');
+const oikosJs = require('../utils/snxJS-connector');
+
 
 const CACHE_LIMIT = 5 * 1000 * 60; // 5 minutes
 const CACHE_KEY = 'totalSupply';
 
+
 const getTotalSupply = async (req=null, res=null) => {
 	
 	const {
-		snxJS: { Synthetix },
-	} = synthetixJs;
+		oksJS: { Oikos },
+	} = oikosJs;
 
-	const totalSupply = await Synthetix.totalSupply();
-
+	const totalSupply = await Oikos.totalSupply();
+	console.log(Oikos)
 	if (req != null && res != null) {
 		if (cache.get(CACHE_KEY)) {
 			return res.send( (cache.get(CACHE_KEY)).toString() );

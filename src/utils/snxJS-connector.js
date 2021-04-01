@@ -1,14 +1,16 @@
-const { SynthetixJs } = require('@oikos/oikos-js');
-const { providers } = require('ethers');
+const { OikosJs } = require('@oikos/oikos-js-bsc');
+const { ethers, getDefaultProvider } = require("ethers");
+ 
+const networkId = 56;
+const provider = getDefaultProvider("https://bsc-dataseed.binance.org")
 
-
-const snxJSConnector = {
+const oksJSConnector = {
 	initialized: false,
 	init: function () {
 		this.initialized = true;
-		this.snxJS = new SynthetixJs({networkId:1});
-		this.synths = this.snxJS.contractSettings.synths;
-		this.ethersUtils = this.snxJS.ethers.utils;
+		this.oksJS = new OikosJs({networkId, provider});
+		this.synths = this.oksJS.contractSettings.synths;
+		this.ethersUtils = this.oksJS.ethers.utils;
 	},
 };
-module.exports = snxJSConnector;
+module.exports = oksJSConnector;
