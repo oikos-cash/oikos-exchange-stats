@@ -1,7 +1,7 @@
-const synthetixJs = require('./snxJS-connector');
+const oikosJs = require('./snxJS-connector');
 
 module.exports.getCurrenciesFromPair = pair => {
-	const { synths } = synthetixJs;
+	const { synths } = oikosJs;
 	
 	let [from, to] = pair.split('-');
 	 
