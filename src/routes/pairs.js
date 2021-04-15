@@ -1,8 +1,8 @@
-const synthetixJs = require('../utils/snxJS-connector');
+const oikosJs = require('../utils/snxJS-connector');
 
 const VALID_SYNTHS_CATEGORIES = ['all', 'crypto', 'forex', 'commodity', 'index', 'equities'];
 const getPairs = async (req, res) => {
-	const { synths } = synthetixJs;
+	const { synths } = oikosJs;
 	const { category } = req.params;
 
 	if (!VALID_SYNTHS_CATEGORIES.includes(category)) {

@@ -1,6 +1,6 @@
-const snxData = require('@oikos/oikos-data');
+const snxData = require('@oikos/oikos-data-bsc');
 const cache = require('memory-cache');
-const synthetixJs = require('../utils/snxJS-connector');
+const oikosJs = require('../utils/snxJS-connector');
 const { getCurrenciesFromPair } = require('../utils/currency');
 
 const CACHE_LIMIT = 3 * 1000 * 60; // 3 minute
@@ -20,7 +20,7 @@ const ticker = async (req, res) => {
 	const {
 		oksJS: { ExchangeRates },
 		ethersUtils: { formatBytes32String },
-	} = synthetixJs;
+	} = oikosJs;
 
 	const yesterday = Math.floor(Date.now() / 1e3) - 3600 * 24;
 	try {
