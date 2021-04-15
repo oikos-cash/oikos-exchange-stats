@@ -1,4 +1,4 @@
-const snxData = require('@oikos/oikos-data');
+const snxData = require('@oikos/oikos-data-bsc');
 const cache = require('memory-cache');
 
 const synthetixJs = require('../utils/snxJS-connector');
@@ -23,9 +23,12 @@ const getTotalLocked = async (req=null, res=null) => {
 	 
 
 	try {
+
+		console.log(snxData)
 		let snxLocked = 0;
 		let snxTotal = 0;
 		const holders = await snxData.snx.holders({ max: 1000 });
+		//console.log(holders)
 		const [
 			unformattedLastDebtLedgerEntry,
 			unformattedTotalIssuedSynths,
@@ -53,10 +56,11 @@ const getTotalLocked = async (req=null, res=null) => {
 		holders.forEach(({ collateral, debtEntryAtIndex, initialDebtOwnership }) => {
 			let debtBalance = ((totalIssuedSynths * lastDebtLedgerEntry) / debtEntryAtIndex) * initialDebtOwnership;
 			let collateralRatio = debtBalance / collateral / usdToSnxPrice;
-			if (isNaN(debtBalance)) {
+			if (isNaN(debtBalance) || collateral == 0) {
 				debtBalance = 0;
 				collateralRatio = 0;
 			}
+
 			snxLocked += collateral * Math.min(1, collateralRatio / issuanceRatio);
 			snxTotal += collateral;
 		});
@@ -66,6 +70,7 @@ const getTotalLocked = async (req=null, res=null) => {
 		console.log(marketCap, snxLocked, snxTotal);
 
 		const totalLockedValue = (marketCap * snxLocked) / snxTotal;
+
 		cache.put(CACHE_KEY, totalLockedValue, CACHE_LIMIT);
 				
 		if (req != null && res != null) {
