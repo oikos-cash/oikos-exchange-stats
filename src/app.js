@@ -1,6 +1,6 @@
 const express = require('express');
 require('dotenv').config();
-const oksJSConnector = require('./utils/snxJS-connector');
+const oksJSConnector = require('./utils/oksJS-connector');
 
 oksJSConnector.init();
 

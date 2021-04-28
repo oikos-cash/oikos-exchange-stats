@@ -1,4 +1,4 @@
-const oikosJs = require('./snxJS-connector');
+const oikosJs = require('./oksJS-connector');
 
 module.exports.getCurrenciesFromPair = pair => {
 	const { synths } = oikosJs;

@@ -1,6 +1,6 @@
 const snxData = require('@oikos/oikos-data-bsc');
 const cache = require('memory-cache');
-const oikosJs = require('../utils/snxJS-connector');
+const oikosJs = require('../utils/oksJS-connector');
 const { getCurrenciesFromPair } = require('../utils/currency');
 
 const CACHE_LIMIT = 3 * 1000 * 60; // 3 minute

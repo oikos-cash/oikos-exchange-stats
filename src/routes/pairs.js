@@ -1,4 +1,4 @@
-const oikosJs = require('../utils/snxJS-connector');
+const oikosJs = require('../utils/oksJS-connector');
 
 const VALID_SYNTHS_CATEGORIES = ['all', 'crypto', 'forex', 'commodity', 'index', 'equities'];
 const getPairs = async (req, res) => {

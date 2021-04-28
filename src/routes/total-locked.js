@@ -1,7 +1,7 @@
-const snxData = require('@oikos/oikos-data-bsc');
+const oksData = require('@oikos/oikos-data-bsc');
 const cache = require('memory-cache');
 
-const synthetixJs = require('../utils/snxJS-connector');
+const oikosJs = require('../utils/oksJS-connector');
 
 const CACHE_LIMIT = 60 * 1000 * 60; // 60 minutes
 const CACHE_KEY = 'totalLocked';
@@ -10,7 +10,7 @@ const getTotalLocked = async (req=null, res=null) => {
 	const {
 		oksJS: { ExchangeRates, OikosState, Oikos },
 		ethersUtils: { formatBytes32String },
-	} = synthetixJs;
+	} = oikosJs;
 
 	if (cache.get(CACHE_KEY)) {
 		if (req != null && res != null) {
@@ -24,16 +24,16 @@ const getTotalLocked = async (req=null, res=null) => {
 
 	try {
 
-		console.log(snxData)
-		let snxLocked = 0;
-		let snxTotal = 0;
-		const holders = await snxData.oks.holders({ max: 1000 });
+		console.log(oksData)
+		let oksLocked = 0;
+		let oksTotal = 0;
+		const holders = await oksData.snx.holders({ max: 1000 });
 		//console.log(holders)
 		const [
 			unformattedLastDebtLedgerEntry,
 			unformattedTotalIssuedSynths,
 			unformattedIssuanceRatio,
-			unformattedUsdToSnxPrice,
+			unformattedUsdTooksPrice,
 			unformattedTotalSupply,
 		] = await Promise.all([
 			OikosState.lastDebtLedgerEntry(),
@@ -46,37 +46,37 @@ const getTotalLocked = async (req=null, res=null) => {
 		
 		const lastDebtLedgerEntry = unformattedLastDebtLedgerEntry / 1e27;
 
-		const [totalIssuedSynths, issuanceRatio, usdToSnxPrice, totalSupply] = [
+		const [totalIssuedSynths, issuanceRatio, usdTooksPrice, totalSupply] = [
 			unformattedTotalIssuedSynths,
 			unformattedIssuanceRatio,
-			unformattedUsdToSnxPrice,
+			unformattedUsdTooksPrice,
 			unformattedTotalSupply,
 		].map(val => val / 1e18);
 
 		holders.forEach(({ collateral, debtEntryAtIndex, initialDebtOwnership }) => {
 			let debtBalance = ((totalIssuedSynths * lastDebtLedgerEntry) / debtEntryAtIndex) * initialDebtOwnership;
-			let collateralRatio = debtBalance / collateral / usdToSnxPrice;
+			let collateralRatio = debtBalance / collateral / usdTooksPrice;
 			if (isNaN(debtBalance) || collateral == 0) {
 				debtBalance = 0;
 				collateralRatio = 0;
 			}
 
-			snxLocked += collateral * Math.min(1, collateralRatio / issuanceRatio);
-			snxTotal += collateral;
+			oksLocked += collateral * Math.min(1, collateralRatio / issuanceRatio);
+			oksTotal += collateral;
 		});
 
-		const marketCap = usdToSnxPrice * totalSupply;
+		const marketCap = usdTooksPrice * totalSupply;
 
-		console.log(marketCap, snxLocked, snxTotal);
+		console.log(marketCap, oksLocked, oksTotal);
 
-		const totalLockedValue = (marketCap * snxLocked) / snxTotal;
+		const totalLockedValue = (marketCap * oksLocked) / oksTotal;
 
 		cache.put(CACHE_KEY, totalLockedValue, CACHE_LIMIT);
 				
 		if (req != null && res != null) {
-			return res.send({ snxLocked });
+			return res.send({ oksLocked });
 		} else {
-			return snxLocked;
+			return oksLocked;
 		}
 
 	} catch (e) {
