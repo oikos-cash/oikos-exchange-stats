@@ -15,13 +15,11 @@ const getTotalLocked = async (req=null, res=null) => {
 	if (cache.get(CACHE_KEY)) {
 		if (req != null && res != null) {
 			return res.send({ totalLocked: cache.get(CACHE_KEY) });
-
 		} else {
 			return cache.get(CACHE_KEY);
 		}
 	}
 	 
-
 	try {
 
 		console.log(oksData)
@@ -73,8 +71,9 @@ const getTotalLocked = async (req=null, res=null) => {
 
 		cache.put(CACHE_KEY, totalLockedValue, CACHE_LIMIT);
 				
+
 		if (req != null && res != null) {
-			return res.send({ oksLocked });
+			return res.send( oksLocked );
 		} else {
 			return oksLocked;
 		}
