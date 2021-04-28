@@ -69,11 +69,12 @@ const getTotalLocked = async (req=null, res=null) => {
 
 		const totalLockedValue = (marketCap * oksLocked) / oksTotal;
 
-		cache.put(CACHE_KEY, totalLockedValue, CACHE_LIMIT);
-				
+		cache.put(CACHE_KEY, oksLocked, CACHE_LIMIT);
+		console.log(`total locked value ${totalLockedValue} ${oksLocked}`)
 
 		if (req != null && res != null) {
-			return res.send( oksLocked );
+			return res.send(  (cache.put(CACHE_KEY, oksLocked, CACHE_LIMIT)).toString()  );
+
 		} else {
 			return oksLocked;
 		}
