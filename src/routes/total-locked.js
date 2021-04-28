@@ -27,7 +27,7 @@ const getTotalLocked = async (req=null, res=null) => {
 		console.log(snxData)
 		let snxLocked = 0;
 		let snxTotal = 0;
-		const holders = await snxData.snx.holders({ max: 1000 });
+		const holders = await snxData.oks.holders({ max: 1000 });
 		//console.log(holders)
 		const [
 			unformattedLastDebtLedgerEntry,
@@ -74,7 +74,7 @@ const getTotalLocked = async (req=null, res=null) => {
 		cache.put(CACHE_KEY, totalLockedValue, CACHE_LIMIT);
 				
 		if (req != null && res != null) {
-			return res.send({ totalLockedValue });
+			return res.send({ snxLocked });
 		} else {
 			return snxLocked;
 		}
